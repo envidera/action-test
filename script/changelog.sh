@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+cd.. 
+
 # Encontrar o commit anterior ao último
 previous_commit=$(git rev-parse HEAD~1)
 
