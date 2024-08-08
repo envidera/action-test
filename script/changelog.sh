@@ -1,5 +1,12 @@
-#!/usr/bin/env bash
+#!/bin/bash
+set -e
 
+# Verificar se há commits suficientes
+commit_count=$(git rev-list --count HEAD)
+if [ "$commit_count" -lt 2 ]; then
+    echo "There are not enough commits to compare." > auto_changelog.txt
+    exit 0
+fi
 
 # Encontrar o commit anterior ao último
 previous_commit=$(git rev-parse HEAD~1)
@@ -15,13 +22,10 @@ if [ -n "$current_file_path" ]; then
     # Verificar se o arquivo também existe no commit anterior
     if [ -n "$previous_file_path" ]; then
         # Comparar o arquivo CHANGELOG.md entre o último commit e o commit anterior
-        git diff --unified=0 $previous_commit HEAD -- "$current_file_path" | awk '/^\+|^-/' | sed -e 's/^[+-]//' | sed '1,2d'  > auto_changelog.txt
+        git diff --unified=0 $previous_commit HEAD -- "$current_file_path" | awk '/^\+|^-/' | sed -e 's/^[+-]//' | sed '1,2d' > auto_changelog.txt
     else
-        echo "Arquivo CHANGELOG.md não encontrado no commit anterior."
-        echo "" > auto_changelog.txt
+        echo "CHANGELOG.md file not found in previous commit." > auto_changelog.txt
     fi
 else
-    echo "Arquivo CHANGELOG.md não encontrado no último commit."
-     echo "" > auto_changelog.txt
+    echo "CHANGELOG.md file not found in last commit." > auto_changelog.txt
 fi
-
