@@ -1,5 +1,5 @@
 # -------------------------------------------
-# HOW TO USE
+#  HOW TO USE
 # -------------------------------------------
 #  Creates a CHANGELOG.md
 #  Each new version must follow the format: ## v[0-9]+
@@ -57,19 +57,26 @@ runs:
   steps:
     - name: Generate Auto Changelog
       shell: bash
-      run: |
+      run: |        
         # Define the variable from input
         CHANGELOG_FILE="${{ inputs.file }}"
+
         CHANGELOG_FOR_RELEASE=changelog.txt
 
-        # Create the changelog.txt file with header
+        # --------------------------------------
+        # Create the CHANGELOG_FOR_RELEASE file 
+        # with a custom header
+
         {
             echo "## Changelog" 
             echo ""
-            echo "> Auto-generated from CHANGELOG.md"
+            echo "> Auto-generated from $CHANGELOG_FILE"
         } > $CHANGELOG_FOR_RELEASE
 
-        # Extract content using awk and append to changelog.txt
+        # --------------------------------------
+        # Extract content using awk and append to the 
+        # CHANGELOG_FOR_RELEASE file
+
         awk '
         BEGIN { inside_section = 0; }
         /^## v[0-9]+/ {
