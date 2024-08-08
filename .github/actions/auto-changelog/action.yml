@@ -1,3 +1,50 @@
+# -------------------------------------------
+# HOW TO USE
+# -------------------------------------------
+#  Creates a CHANGELOG.md
+#  Each new version must follow the format: ## v[0-9]+
+#
+#  Example:
+#
+#  ## v0.0.2-pre-release
+#  my whatever content here
+#
+#  The action above will capture everything from 
+#  the first version at the top of the file until 
+#  the next version.
+#
+#  ## v0.0.1
+#  my whatever content here
+#
+# -------------------------------------------
+#  Add this custom action to your GitHub Actions 
+#  workflow file (yml or yaml). Make sure to define 
+#  the changelog file that the action should read from.
+#
+#   - name: Run automatic changelog
+#      uses: ./.github/actions/auto-changelog
+#      with:
+#        file: 'CHANGELOG.md'
+# -------------------------------------------
+#  On release session add:
+#
+#  with:
+#      body_path: ./changelog.txt   
+#
+# -------------------------------------------
+#  example:  
+#
+#   - name: Run automatic changelog
+#      uses: ./.github/actions/auto-changelog
+#      with:
+#        file: 'CHANGELOG.md'
+#    
+#    - name: Create Release
+#      uses: softprops/action-gh-release@v2
+#      if: startsWith(github.ref, 'refs/tags/')
+#      with:
+#        body_path: ./changelog.txt
+
 name: 'Auto Changelog from CHANGELOG.md'
 description: 'A reusable action'
 inputs:
@@ -13,13 +60,14 @@ runs:
       run: |
         # Define the variable from input
         CHANGELOG_FILE="${{ inputs.file }}"
+        CHANGELOG_FOR_RELEASE=changelog.txt
 
         # Create the changelog.txt file with header
         {
             echo "## Changelog" 
             echo ""
             echo "> Auto-generated from CHANGELOG.md"
-        } > changelog.txt
+        } > $CHANGELOG_FOR_RELEASE
 
         # Extract content using awk and append to changelog.txt
         awk '
@@ -33,4 +81,4 @@ runs:
         }
         inside_section == 1 {
           print;
-        }' "$CHANGELOG_FILE" >> changelog.txt
+        }' "$CHANGELOG_FILE" >> $CHANGELOG_FOR_RELEASE
