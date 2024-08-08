@@ -7,18 +7,20 @@ on:
 
 jobs:
   release:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest    
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4     
 
     - name: Run automatic changelog
-      run: ./script/changelog.sh
+      uses: ./.github/actions/auto-changelog
+      with:
+        file: 'CHANGELOG.md'
     
 
     - name: Create Release
       uses: softprops/action-gh-release@v2
       if: startsWith(github.ref, 'refs/tags/')
       with:
-        body_path: ./auto_changelog.txt    
+        body_path: ./changelog.txt    

@@ -3,7 +3,11 @@
 
 ## v0.1.3-pre-release
 
-changed: script
+This action checks-out your repository under $GITHUB_WORKSPACE, so your workflow can access it.
+
+Only a single commit is fetched by default, for the ref/SHA that triggered the workflow. Set fetch-depth: 0 to fetch all history for all branches and tags. Refer here to learn which commit $GITHUB_SHA points to for different events.
+
+The auth token is persisted in the local git config. This enables your scripts to ru
 
 
 ## v0.1.765765-alpha

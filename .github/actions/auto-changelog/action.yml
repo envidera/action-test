@@ -1,0 +1,27 @@
+
+name: 'Auto Changelog from CHANGELOG.md'
+description: 'A reusable action'
+inputs:
+  file:
+    description: 'The CHANGELOG.md file to read from'
+    required: true
+run: | 
+  {
+      echo "## Changelog" 
+      echo ""
+      echo "> Auto-generated from CHANGELOG.md"
+
+  } > changelog.txt
+
+  awk '
+  BEGIN { inside_section = 0; }
+  /^## v[0-9]+/ {
+    if (inside_section == 1) {
+      exit;
+    }
+    inside_section = 1;
+    next;
+  }
+  inside_section == 1 {
+    print;
+  }' "${{ inputs.changelog-file }}" >> changelog.txt
