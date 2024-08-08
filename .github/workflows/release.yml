@@ -13,29 +13,9 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4     
 
-    - name: Run compare_changelog.sh  
-      run: |
-        # Define o arquivo do changelog
-        CHANGELOG_FILE="CHANGELOG.md"
-
-        echo # Changelog > auto_changelog.txt
-
-        # Lê o conteúdo do changelog e extrai o último conteúdo
-        awk '
-        BEGIN { inside_section = 0; }
-        /^## v[0-9]+/ {
-        if (inside_section == 1) {
-            exit;
-        }
-        inside_section = 1;
-        next;
-        }
-        inside_section == 1 {
-        print;
-        }' "$CHANGELOG_FILE" >> auto_changelog.txt 
-
-        ls
-
+    - name: Run automatic changelog
+      run: ./script/changelog.sh
+    
 
     - name: Create Release
       uses: softprops/action-gh-release@v2
