@@ -18,8 +18,10 @@ if [ -n "$current_file_path" ]; then
         git diff --unified=0 $previous_commit HEAD -- "$current_file_path" | awk '/^\+|^-/' | sed -e 's/^[+-]//' | sed '1,2d'  > auto_changelog.txt
     else
         echo "Arquivo CHANGELOG.md não encontrado no commit anterior."
+        echo "" > auto_changelog.txt
     fi
 else
     echo "Arquivo CHANGELOG.md não encontrado no último commit."
+     echo "" > auto_changelog.txt
 fi
 

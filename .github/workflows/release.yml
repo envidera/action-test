@@ -14,7 +14,9 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Run compare_changelog.sh
-      run: ./script/changelog.sh
+      run: |
+        ./script/changelog.sh
+        ls
 
 
     - name: Create Release
