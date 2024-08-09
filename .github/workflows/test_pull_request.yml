@@ -1,0 +1,25 @@
+name: Rust Pull Request Tests
+
+on:
+  pull_request:
+    branches:
+      - main  
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4   
+
+    - name: Rust update and test
+      run: |     
+        rustup update
+        rustup component add clippy
+
+        cargo clippy -V
+        rustc -V
+          
+        cargo clippy --all-targets --all-features -- -D warnings
+        cargo test --release --workspace
