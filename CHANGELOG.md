@@ -1,5 +1,8 @@
 # Changelog
 
+# v.0.0.20
+- added: rust project
+
 ## v0.1.4-pre-release
 
 - typo: github auto-changelog action
