@@ -1,4 +1,7 @@
 # -------------------------------------------
+#  Auto changelog from CHANGELOG.md file
+#  Envidera - MIT
+# -------------------------------------------
 #  HOW TO USE
 # -------------------------------------------
 #  Creates a CHANGELOG.md
@@ -45,7 +48,7 @@
 #      with:
 #        body_path: ./changelog.txt
 
-name: 'Auto Changelog from CHANGELOG.md'
+name: 'Auto changelog from CHANGELOG.md file'
 description: 'A reusable action'
 inputs:
   file:
